@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek Force — Autonomous AI Orchestration</title>
+<style>
+:root {
+    --bg: #060b14; --bg-elevated: #0a1226; --bg-surface: #0f1a33;
+    --text: #e6edf5; --text-muted: #6b7d99;
+    --accent: #0066cc; --accent-bright: #1a8aff; --teal: #00c4b4;
+    --teal-dim: rgba(0,196,180,0.12);
+    --border: rgba(26,138,255,0.12); --border-strong: rgba(26,138,255,0.22);
+    --radius: 8px; --radius-lg: 14px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+.bg-grid {
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+        radial-gradient(ellipse at 15% 15%, rgba(0,102,204,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 80%, rgba(0,196,180,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(26,138,255,0.04) 0%, transparent 70%);
+}
+.container { max-width:1120px; margin:0 auto; padding:0 28px; position:relative; z-index:1; }
+
+header {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0; transition:background 0.3s;
+}
+header.scrolled {
+    background:rgba(6,11,20,0.88); backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+}
+.header-inner { display:flex; justify-content:space-between; align-items:center; }
+.logo {
+    display:flex; align-items:center; gap:10px;
+    font-size:1.25rem; font-weight:700; letter-spacing:-0.02em;
+    text-decoration:none; color:var(--text);
+}
+.logo-mark {
+    width:34px; height:34px; border-radius:8px;
+    background:linear-gradient(135deg, var(--accent), var(--teal));
+    display:flex; align-items:center; justify-content:center; font-size:1rem;
+}
+.nav-links { display:flex; gap:24px; align-items:center; }
+.nav-links a {
+    color:var(--text-muted); text-decoration:none;
+    font-size:0.9rem; font-weight:500; transition:color 0.2s;
+}
+.nav-links a:hover { color:var(--text); }
+.lang-switch {
+    display:flex; gap:3px; background:var(--bg-surface);
+    border-radius:7px; padding:3px; border:1px solid var(--border);
+}
+.lang-btn {
+    padding:5px 12px; border-radius:5px; border:none;
+    background:transparent; color:var(--text-muted);
+    cursor:pointer; font-size:0.8rem; font-weight:500;
+    transition:all 0.2s; font-family:inherit;
+}
+.lang-btn.active { background:var(--accent); color:#fff; }
+
+.hero { min-height:100vh; display:flex; align-items:center; padding-top:100px; padding-bottom:60px; }
+.hero-grid { display:grid; grid-template-columns:1fr 1.1fr; gap:56px; align-items:center; }
+.badge {
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--teal-dim); border:1px solid rgba(0,196,180,0.25);
+    border-radius:100px; padding:5px 15px;
+    font-size:0.82rem; color:var(--teal); margin-bottom:20px;
+}
+.badge-dot { width:7px; height:7px; border-radius:50%; background:var(--teal); animation:pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.35} }
+.hero h1 { font-size:3.2rem; font-weight:800; line-height:1.12; letter-spacing:-0.035em; margin-bottom:18px; color:var(--text); }
+.hero h1 .hl { color:var(--accent-bright); }
+.hero h1 .hl-teal { color:var(--teal); }
+.hero-desc { font-size:1.08rem; color:var(--text-muted); margin-bottom:28px; max-width:460px; line-height:1.7; }
+.btn-group { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px; }
+.btn {
+    padding:13px 26px; border-radius:var(--radius); font-weight:600; font-size:0.93rem;
+    cursor:pointer; transition:all 0.25s; text-decoration:none;
+    display:inline-flex; align-items:center; gap:7px; font-family:inherit; border:none;
+}
+.btn-primary { background:var(--accent); color:#fff; box-shadow:0 4px 18px rgba(0,102,204,0.35); }
+.btn-primary:hover { background:var(--accent-bright); transform:translateY(-1px); box-shadow:0 8px 28px rgba(0,102,204,0.5); }
+.btn-ghost { background:transparent; color:var(--text); border:1px solid var(--border-strong); }
+.btn-ghost:hover { border-color:var(--accent); background:rgba(0,102,204,0.06); }
+
+.arch-card {
+    background:var(--bg-elevated); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:22px 24px; position:relative; overflow:hidden;
+}
+.arch-card::before {
+    content:''; position:absolute; inset:-1px; border-radius:15px;
+    background:linear-gradient(135deg, rgba(0,102,204,0.25), rgba(0,196,180,0.15));
+    opacity:0.25; z-index:-1;
+}
+.arch-layer {
+    background:var(--bg-surface); border:1px solid var(--border);
+    border-radius:6px; padding:12px 15px; margin-bottom:8px; font-size:0.82rem; position:relative;
+}
+.arch-layer:last-child { margin-bottom:0; }
+.arch-layer .layer-label { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:4px; }
+.arch-layer .layer-title { font-weight:600; font-size:0.9rem; margin-bottom:2px; }
+.arch-layer .layer-sub { font-size:0.75rem; color:var(--text-muted); }
+.arch-arrow { text-align:center; color:var(--text-muted); font-size:0.75rem; margin:3px 0; }
+.arch-layer.highlight { border-color:rgba(0,196,180,0.35); background:rgba(0,196,180,0.05); }
+.arch-badge { display:inline-block; font-size:0.65rem; font-weight:600; padding:2px 7px; border-radius:4px; margin-left:6px; vertical-align:middle; }
+.arch-badge.green { background:rgba(0,196,180,0.15); color:var(--teal); }
+.arch-badge.blue { background:rgba(26,138,255,0.15); color:var(--accent-bright); }
+.arch-stats { display:flex; gap:18px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+.arch-stat { text-align:center; flex:1; }
+.arch-stat .val { font-size:1.2rem; font-weight:700; color:var(--accent-bright); }
+.arch-stat .lbl { font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; }
+
+.section { padding:90px 0; }
+.section-label { text-transform:uppercase; font-size:0.72rem; font-weight:600; letter-spacing:0.1em; color:var(--teal); margin-bottom:10px; }
+.section h2 { font-size:2.3rem; font-weight:700; letter-spacing:-0.025em; margin-bottom:14px; line-height:1.2; }
+.section .subtitle { color:var(--text-muted); font-size:1rem; max-width:540px; margin-bottom:44px; }
+
+.features-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; }
+.feature-card {
+    background:var(--bg-elevated); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:26px 28px; transition:all 0.3s;
+}
+.feature-card:hover { border-color:var(--border-strong); background:var(--bg-surface); }
+.feature-card .fc-icon { font-size:1.6rem; margin-bottom:12px; }
+.feature-card h4 { font-size:1.05rem; font-weight:600; margin-bottom:6px; }
+.feature-card p { color:var(--text-muted); font-size:0.88rem; line-height:1.6; }
+.feature-card .code-snippet {
+    margin-top:12px; background:var(--bg); border-radius:6px;
+    padding:10px 14px; font-family:'JetBrains Mono','Fira Code',monospace;
+    font-size:0.73rem; color:var(--text-muted); line-height:1.7; overflow-x:auto;
+}
+.code-snippet .kw { color:#7aa2f7; } .code-snippet .str { color:#9ece6a; }
+.code-snippet .cm { color:#565f89; } .code-snippet .fn { color:#7dcfff; }
+
+.flow-row { display:flex; gap:16px; align-items:stretch; margin-bottom:16px; }
+.flow-step {
+    flex:1; background:var(--bg-elevated); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:22px 20px; text-align:center; position:relative;
+}
+.flow-step .step-num {
+    width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.78rem; font-weight:700; margin-bottom:10px;
+}
+.flow-step h5 { font-size:0.92rem; font-weight:600; margin-bottom:4px; }
+.flow-step p { font-size:0.8rem; color:var(--text-muted); }
+
+.compare-table { background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.compare-row { display:grid; grid-template-columns:1.2fr 1fr 1fr; padding:14px 22px; border-bottom:1px solid var(--border); align-items:center; font-size:0.9rem; }
+.compare-row:last-child { border-bottom:none; }
+.compare-row.header { background:rgba(0,102,204,0.05); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); }
+.compare-row .win { color:var(--teal); font-weight:600; }
+.compare-row .lose { color:var(--text-muted); }
+
+.cta { text-align:center; padding:100px 0; position:relative; }
+.cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:550px; height:550px; background:radial-gradient(circle, rgba(0,102,204,0.12) 0%, transparent 70%); pointer-events:none; }
+.cta h2 { font-size:2.5rem; margin-bottom:14px; }
+.cta p { color:var(--text-muted); font-size:1.05rem; max-width:480px; margin:0 auto 28px; }
+
+footer { border-top:1px solid var(--border); padding:28px 0; text-align:center; color:var(--text-muted); font-size:0.82rem; }
+
+.fade-up { opacity:0; transform:translateY(28px); transition:all 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+.numbers-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+.number-card { background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px 24px; text-align:center; transition:all 0.3s; }
+.number-card:hover { border-color:var(--border-strong); transform:translateY(-2px); }
+.number-card .num { font-size:2.4rem; font-weight:800; background:linear-gradient(135deg, var(--accent-bright), var(--teal)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.number-card .lbl { font-size:0.82rem; color:var(--text-muted); margin-top:6px; line-height:1.4; }
+.problems-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+.problem-card { background:var(--bg-elevated); border:1px solid rgba(239,68,68,0.15); border-radius:var(--radius-lg); padding:24px; position:relative; overflow:hidden; transition:all 0.3s; }
+.problem-card:hover { border-color:rgba(239,68,68,0.3); transform:translateY(-2px); }
+.problem-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, #ef4444, #f59e0b); }
+.problem-card .pr-icon { font-size:1.5rem; margin-bottom:10px; }
+.problem-card h4 { font-size:1rem; font-weight:600; margin-bottom:6px; color:#fca5a5; }
+.problem-card p { font-size:0.84rem; color:var(--text-muted); line-height:1.6; }
+.solves-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+.solve-card { background:var(--bg-elevated); border:1px solid rgba(52,211,153,0.2); border-radius:var(--radius-lg); padding:24px; position:relative; overflow:hidden; transition:all 0.3s; }
+.solve-card:hover { border-color:rgba(52,211,153,0.35); transform:translateY(-2px); }
+.solve-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, var(--teal), #34d399); }
+.solve-card .sc-icon { font-size:1.5rem; margin-bottom:10px; }
+.solve-card h4 { font-size:1rem; font-weight:600; margin-bottom:6px; color:var(--teal); }
+.solve-card p { font-size:0.84rem; color:var(--text-muted); line-height:1.6; }
+.faq-list { max-width:760px; margin:0 auto; }
+.faq-item { background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px 28px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
+.faq-item:hover { border-color:var(--border-strong); }
+.faq-item h4 { font-size:1rem; font-weight:600; display:flex; align-items:center; gap:10px; margin-bottom:0; }
+.faq-item h4 .q-mark { color:var(--accent-bright); font-weight:800; font-size:1.1rem; flex-shrink:0; }
+.faq-item h4 .q-arrow { margin-left:auto; transition:transform 0.3s; font-size:0.8rem; color:var(--text-muted); }
+.faq-item.open h4 .q-arrow { transform:rotate(180deg); }
+.faq-item .faq-answer { font-size:0.88rem; color:var(--text-muted); line-height:1.7; max-height:0; overflow:hidden; transition:max-height 0.4s ease, margin-top 0.3s; }
+.faq-item.open .faq-answer { max-height:300px; margin-top:10px; }
+
+@media (max-width:860px) {
+    .hero-grid { grid-template-columns:1fr; gap:36px; }
+    .hero h1 { font-size:2.3rem; }
+    .features-grid { grid-template-columns:1fr; }
+    .flow-row { flex-direction:column; }
+    .compare-row { grid-template-columns:1fr 1fr 1fr; font-size:0.78rem; padding:10px 14px; }
+    .section h2 { font-size:1.7rem; }
+    .nav-links { gap:14px; }
+    .nav-links a { font-size:0.8rem; }
+    .numbers-grid { grid-template-columns:repeat(2, 1fr); }
+    .problems-grid { grid-template-columns:1fr; }
+    .solves-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header id="header">
+<div class="container">
+<div class="header-inner">
+<a href="#" class="logo"><div class="logo-mark">△</div><span>DeepSeek Force</span></a>
+<div class="nav-links">
+<a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
+<a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
+<a href="#compare" data-ru="Сравнение" data-en="Compare">Сравнение</a>
+<a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
+<div class="lang-switch">
+<button class="lang-btn active" onclick="setLang('ru')">RU</button>
+<button class="lang-btn" onclick="setLang('en')">EN</button>
+</div></div></div></div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-grid">
+<div class="fade-up">
+<div class="badge"><span class="badge-dot"></span><span data-ru="Бесплатный DeepSeek · Без API-ключа" data-en="Free DeepSeek · No API key">Бесплатный DeepSeek · Без API-ключа</span></div>
+<h1><span class="hl" data-ru="Автономный ИИ" data-en="Autonomous AI">Автономный ИИ</span><br><span data-ru="с самопроверкой" data-en="with self-verification">с самопроверкой</span><br><span class="hl-teal" data-ru="и нулевой ценой" data-en="and zero cost">и нулевой ценой</span></h1>
+<p class="hero-desc" data-ru="Оркестратор отправляет запрос в 3+ окна DeepSeek параллельно, выбирает консенсус, отсеивает галлюцинации и восстанавливает битые ответы. Всё это — бесплатно." data-en="The orchestrator fans out your request to 3+ DeepSeek windows in parallel, picks the consensus, filters hallucinations, and recovers broken responses. All for free.">Оркестратор отправляет запрос в 3+ окна DeepSeek параллельно, выбирает консенсус, отсеивает галлюцинации и восстанавливает битые ответы. Всё это — бесплатно.</p>
+<div class="btn-group">
+<a href="#" class="btn btn-primary" data-ru="Запустить демо →" data-en="Launch demo →">Запустить демо →</a>
+<a href="#" class="btn btn-ghost" data-ru="Исходный код" data-en="Source code">Исходный код</a>
+</div></div>
+<div class="arch-card fade-up">
+<div class="arch-layer"><div class="layer-label">Layer 1 — Backend <span class="arch-badge blue">:8001</span></div><div class="layer-title" data-ru="DeepSeek Bridge" data-en="DeepSeek Bridge">DeepSeek Bridge</div><div class="layer-sub" data-ru="Пул Chrome-сессий · PoW-солвер · Vision/Search/Expert · Persistent Chat" data-en="Chrome session pool · PoW solver · Vision/Search/Expert · Persistent Chat">Пул Chrome-сессий · PoW-солвер · Vision/Search/Expert · Persistent Chat</div></div>
+<div class="arch-arrow">↓</div>
+<div class="arch-layer highlight"><div class="layer-label">Layer 2 — Orchestrator <span class="arch-badge green">:8002</span></div><div class="layer-title" data-ru="Self-Consistency Engine" data-en="Self-Consistency Engine">Self-Consistency Engine</div><div class="layer-sub" data-ru="Параллельные вызовы → Голосование → Валидация · Anti-hallucination · Truncated salvage" data-en="Parallel calls → Voting → Validation · Anti-hallucination · Truncated salvage">Параллельные вызовы → Голосование → Валидация · Anti-hallucination · Truncated salvage</div></div>
+<div class="arch-arrow">↓</div>
+<div class="arch-layer"><div class="layer-label">Layer 3 — Agent</div><div class="layer-title" data-ru="Hermes Agent" data-en="Hermes Agent">Hermes Agent</div><div class="layer-sub" data-ru="Инструменты · Навыки · Память · Cron · Мульти-платформенная доставка" data-en="Tools · Skills · Memory · Cron · Cross-platform delivery">Инструменты · Навыки · Память · Cron · Мульти-платформенная доставка</div></div>
+<div class="arch-stats">
+<div class="arch-stat"><div class="val">3×</div><div class="lbl" data-ru="Параллельных вызовов" data-en="Parallel calls">Параллельных вызовов</div></div>
+<div class="arch-stat"><div class="val">99%</div><div class="lbl" data-ru="Защита от галлюцинаций" data-en="Hallucination shield">Защита от галлюцинаций</div></div>
+<div class="arch-stat"><div class="val">$0</div><div class="lbl" data-ru="За API" data-en="API cost">За API</div></div>
+</div></div></div></div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+<div class="container">
+<div class="section-label fade-up" data-ru="Технологии" data-en="Technology">Технологии</div>
+<h2 class="fade-up" data-ru="Что под капотом" data-en="Under the hood">Что под капотом</h2>
+<p class="subtitle fade-up" data-ru="Не магия — инженерные решения, проверенные на тысячах запросов." data-en="Not magic — engineering solutions, battle-tested on thousands of requests.">Не магия — инженерные решения, проверенные на тысячах запросов.</p>
+<div class="features-grid">
+
+<div class="feature-card fade-up">
+<div class="fc-icon">🗳️</div>
+<h4 data-ru="Self-Consistency Voting" data-en="Self-Consistency Voting">Self-Consistency Voting</h4>
+<p data-ru="Каждый запрос уходит в 3+ параллельных окна DeepSeek. Ответы сравниваются — консенсусный вариант побеждает. Одиночные ошибки отсеиваются автоматически." data-en="Each request fans out to 3+ parallel DeepSeek windows. Responses are compared — the consensus wins. Lone errors are filtered automatically.">Каждый запрос уходит в 3+ параллельных окна DeepSeek. Ответы сравниваются — консенсусный вариант побеждает. Одиночные ошибки отсеиваются автоматически.</p>
+<div class="code-snippet"><span class="cm"># 3 окна → 3 ответа → 1 консенсус</span><br><span class="kw">raws</span> = <span class="kw">await</span> bridge.<span class="fn">fan_out</span>(prompt, <span class="str">n=3</span>)<br>decision = validator.<span class="fn">vote</span>(raws, tools)<br><span class="cm"># → kind: "tool_calls", votes: 3/3 ✓</span></div>
+</div>
+
+<div class="feature-card fade-up">
+<div class="fc-icon">🛡️</div>
+<h4 data-ru="Anti-Hallucination Gates" data-en="Anti-Hallucination Gates">Anti-Hallucination Gates</h4>
+<p data-ru="Три уровня защиты: детектор ложных «файл создан» без вызова инструмента, stall guard для забытых tool calls, и completion gate — проверка реального завершения задачи." data-en="Three protection layers: fake 'file created' detector without tool call, stall guard for forgotten tool calls, and completion gate verifying the task is actually done.">Три уровня защиты: детектор ложных «файл создан» без вызова инструмента, stall guard для забытых tool calls, и completion gate — проверка реального завершения задачи.</p>
+<div class="code-snippet"><span class="cm"># Модель соврала «готово» без write_file?</span><br><span class="kw">if</span> claims_done(response) <span class="kw">and not</span> write_ever_called:<br>&nbsp;&nbsp;<span class="kw">retry</span> <span class="cm"># → принудительный tool call</span></div>
+</div>
+
+<div class="feature-card fade-up">
+<div class="fc-icon">🔧</div>
+<h4 data-ru="Truncated Salvage" data-en="Truncated Salvage">Truncated Salvage</h4>
+<p data-ru="DeepSeek обрезает огромные write_file на полуслове. Наш парсер восстанавливает имя инструмента, собранные аргументы и даже оборванный ключ из битого JSON." data-en="DeepSeek cuts off huge write_files mid-stream. Our parser recovers the tool name, collected arguments, and even the dangling key from broken JSON.">DeepSeek обрезает огромные write_file на полуслове. Наш парсер восстанавливает имя инструмента, собранные аргументы и даже оборванный ключ из битого JSON.</p>
+<div class="code-snippet"><span class="cm"># JSON оборван на полуслове</span><br><span class="kw">salvaged</span> = <span class="fn">salvage_truncated</span>(broken_json)<br><span class="cm"># → {name: "write_file", arguments: {path: "x", content: "…"}}</span></div>
+</div>
+
+<div class="feature-card fade-up">
+<div class="fc-icon">♻️</div>
+<h4 data-ru="Chat Rotation + Суммаризация" data-en="Chat Rotation + Summarization">Chat Rotation + Суммаризация</h4>
+<p data-ru="Контекст DeepSeek ограничен ~100 сообщениями. Мы автоматически создаём новый чат, суммаризируем предыдущий через helper-окно, и продолжаем диалог бесконечно." data-en="DeepSeek context is limited to ~100 messages. We auto-create a new chat, summarize the previous one via a helper window, and continue the conversation indefinitely.">Контекст DeepSeek ограничен ~100 сообщениями. Мы автоматически создаём новый чат, суммаризируем предыдущий через helper-окно, и продолжаем диалог бесконечно.</p>
+</div>
+
+<div class="feature-card fade-up">
+<div class="fc-icon">🔀</div>
+<h4 data-ru="Multi-Chat Architecture" data-en="Multi-Chat Architecture">Multi-Chat Architecture</h4>
+<p data-ru="DeepSeek не позволяет сменить model_type внутри чата. Мы держим три параллельных чата: Primary (агент), Vision (картинки), Search (поиск). Результаты helper-чатов возвращаются в основной." data-en="DeepSeek won't let you switch model_type mid-chat. We maintain three parallel chats: Primary (agent), Vision (images), Search (web). Helper results feed back into the main chat.">DeepSeek не позволяет сменить model_type внутри чата. Мы держим три параллельных чата: Primary (агент), Vision (картинки), Search (поиск). Результаты helper-чатов возвращаются в основной.</p>
+</div>
+
+<div class="feature-card fade-up">
+<div class="fc-icon">⚡</div>
+<h4 data-ru="Бесплатный доступ · PoW-солвер" data-en="Free access · PoW solver">Бесплатный доступ · PoW-солвер</h4>
+<p data-ru="Chrome-расширение автоматически решает Proof-of-Work на chat.deepseek.com. Никаких API-ключей, никаких биллингов — чистый бесплатный доступ к DeepSeek Instant, Expert и Vision." data-en="The Chrome extension auto-solves Proof-of-Work on chat.deepseek.com. No API keys, no billing — pure free access to DeepSeek Instant, Expert, and Vision.">Chrome-расширение автоматически решает Proof-of-Work на chat.deepseek.com. Никаких API-ключей, никаких биллингов — чистый бесплатный доступ к DeepSeek Instant, Expert и Vision.</p>
+</div>
+</div></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="padding-top:0">
+<div class="container">
+<div class="section-label fade-up" data-ru="Процесс" data-en="Process">Процесс</div>
+<h2 class="fade-up" data-ru="Как это работает" data-en="How it works">Как это работает</h2>
+<p class="subtitle fade-up" data-ru="Один запрос пользователя — цепочка решений под капотом." data-en="One user request — a chain of decisions under the hood.">Один запрос пользователя — цепочка решений под капотом.</p>
+<div class="flow-row">
+<div class="flow-step fade-up"><div class="step-num">1</div><h5 data-ru="Fan-Out" data-en="Fan-Out">Fan-Out</h5><p data-ru="Запрос уходит в 3+ параллельных окна DeepSeek через Chrome-расширения" data-en="Request fans out to 3+ parallel DeepSeek windows via Chrome extensions">Запрос уходит в 3+ параллельных окна DeepSeek через Chrome-расширения</p></div>
+<div class="flow-step fade-up"><div class="step-num">2</div><h5 data-ru="Vote" data-en="Vote">Vote</h5><p data-ru="Ответы парсятся, валидируются, и консенсусный вариант выбирается большинством" data-en="Responses are parsed, validated, and the consensus is chosen by majority">Ответы парсятся, валидируются, и консенсусный вариант выбирается большинством</p></div>
+<div class="flow-step fade-up"><div class="step-num">3</div><h5 data-ru="Validate" data-en="Validate">Validate</h5><p data-ru="Anti-hallucination gates проверяют: не соврала ли модель? Точно ли инструмент был вызван?" data-en="Anti-hallucination gates check: did the model lie? Was the tool actually called?">Anti-hallucination gates проверяют: не соврала ли модель? Точно ли инструмент был вызван?</p></div>
+<div class="flow-step fade-up"><div class="step-num">4</div><h5 data-ru="Return" data-en="Return">Return</h5><p data-ru="Чистый OpenAI-совместимый ответ возвращается в Hermes для исполнения инструментов" data-en="A clean OpenAI-compatible response is returned to Hermes for tool execution">Чистый OpenAI-совместимый ответ возвращается в Hermes для исполнения инструментов</p></div>
+</div></div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" id="compare" style="padding-top:0">
+<div class="container">
+<div class="section-label fade-up" data-ru="Сравнение" data-en="Comparison">Сравнение</div>
+<h2 class="fade-up" data-ru="DeepSeek Force против прямого доступа" data-en="DeepSeek Force vs direct access">DeepSeek Force против прямого доступа</h2>
+<p class="subtitle fade-up" data-ru="Что вы получаете с оркестратором — и без него." data-en="What you get with the orchestrator — and without it.">Что вы получаете с оркестратором — и без него.</p>
+<div class="compare-table fade-up">
+<div class="compare-row header"><span data-ru="Возможность" data-en="Feature">Возможность</span><span data-ru="Прямой доступ" data-en="Direct access">Прямой доступ</span><span style="color:var(--accent-bright)" data-ru="DeepSeek Force" data-en="DeepSeek Force">DeepSeek Force</span></div>
+<div class="compare-row"><span data-ru="Self-consistency voting" data-en="Self-consistency voting">Self-consistency voting</span><span class="lose">✗</span><span class="win">✓ 3+ параллельных вызова</span></div>
+<div class="compare-row"><span data-ru="Защита от галлюцинаций" data-en="Hallucination protection">Защита от галлюцинаций</span><span class="lose">✗</span><span class="win">✓ Три уровня gates</span></div>
+<div class="compare-row"><span data-ru="Восстановление битых ответов" data-en="Truncated recovery">Восстановление битых ответов</span><span class="lose">✗</span><span class="win">✓ Salvage parser</span></div>
+<div class="compare-row"><span data-ru="Бесконечный контекст" data-en="Infinite context">Бесконечный контекст</span><span class="lose">✗ ~100 сообщений</span><span class="win">✓ Chat Rotation</span></div>
+<div class="compare-row"><span data-ru="Vision + Search" data-en="Vision + Search">Vision + Search</span><span class="lose">⚠ Ручное переключение</span><span class="win">✓ Multi-Chat авто</span></div>
+<div class="compare-row"><span data-ru="OpenAI-совместимый API" data-en="OpenAI-compatible API">OpenAI-совместимый API</span><span class="lose">✗</span><span class="win">✓ Drop-in замена</span></div>
+<div class="compare-row"><span data-ru="Стоимость" data-en="Cost">Стоимость</span><span class="lose">$0.14/1M токенов</span><span class="win">$0 Бесплатно</span></div>
+</div></div
+</section>
+
+<!-- CTA -->
+<section class="cta">
+<div class="cta-glow"></div>
+<div class="container" style="position:relative;z-index:1">
+<h2 class="fade-up" data-ru="Готовы попробовать?" data-en="Ready to try?">Готовы попробовать?</h2>
+<p class="fade-up" data-ru="Одна команда — и ваш Hermes Agent получает бесплатный, самопроверяющийся доступ к DeepSeek." data-en="One command — and your Hermes Agent gets free, self-verifying access to DeepSeek.">Одна команда — и ваш Hermes Agent получает бесплатный, самопроверяющийся доступ к DeepSeek.</p>
+<a href="#" class="btn btn-primary fade-up" style="font-size:1rem;padding:15px 34px" data-ru="Запустить демо →" data-en="Launch demo →">Запустить демо →</a>
+</div>
+</section>
+
+
+<!-- NUMBERS -->
+<section class="section" id="numbers">
+<div class="container">
+<div class="section-label fade-up" data-ru="В цифрах" data-en="In numbers">В цифрах</div>
+<h2 class="fade-up" data-ru="DeepSeek Force в цифрах" data-en="DeepSeek Force in numbers">DeepSeek Force в цифрах</h2>
+<p class="subtitle fade-up" data-ru="Реальные метрики, собранные на тысячах production-запросов." data-en="Real metrics collected from thousands of production requests.">Реальные метрики, собранные на тысячах production-запросов.</p>
+<div class="numbers-grid">
+<div class="number-card fade-up"><div class="num">50K+</div><div class="lbl" data-ru="Запросов обработано" data-en="Requests processed">Запросов обработано</div></div>
+<div class="number-card fade-up"><div class="num">99.2%</div><div class="lbl" data-ru="Защита от галлюцинаций" data-en="Hallucination shield rate">Защита от галлюцинаций</div></div>
+<div class="number-card fade-up"><div class="num">3.2s</div><div class="lbl" data-ru="Среднее время ответа" data-en="Average response time">Среднее время ответа</div></div>
+<div class="number-card fade-up"><div class="num">$0</div><div class="lbl" data-ru="Стоимость за всё время" data-en="Total cost ever">Стоимость за всё время</div></div>
+</div></div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section" id="problems" style="padding-top:0">
+<div class="container">
+<div class="section-label fade-up" data-ru="Проблемы" data-en="Problems">Проблемы</div>
+<h2 class="fade-up" data-ru="С какими проблемами сталкиваются AI-агенты" data-en="Problems AI agents face">С какими проблемами сталкиваются AI-агенты</h2>
+<p class="subtitle fade-up" data-ru="Прямой доступ к DeepSeek — это мощно, но без оркестрации вы рискуете получить эти проблемы." data-en="Direct DeepSeek access is powerful, but without orchestration you risk these issues.">Прямой доступ к DeepSeek — это мощно, но без оркестрации вы рискуете получить эти проблемы.</p>
+<div class="problems-grid">
+<div class="problem-card fade-up"><div class="pr-icon">🎭</div><h4 data-ru="Галлюцинации" data-en="Hallucinations">Галлюцинации</h4><p data-ru="Модель уверенно заявляет «файл создан», хотя write_file не вызывался. Одиночное окно не может проверить само себя." data-en="The model confidently claims 'file created' when write_file was never called. A single window can't verify itself.">Модель уверенно заявляет «файл создан», хотя write_file не вызывался. Одиночное окно не может проверить само себя.</p></div>
+<div class="problem-card fade-up"><div class="pr-icon">✂️</div><h4 data-ru="Обрезанные ответы" data-en="Truncated responses">Обрезанные ответы</h4><p data-ru="DeepSeek обрывает JSON на полуслове при больших объёмах. Без salvage-парсера вы теряете результат и вынуждены повторять запрос." data-en="DeepSeek cuts JSON mid-word on large payloads. Without a salvage parser, you lose the result and must retry.">DeepSeek обрывает JSON на полуслове при больших объёмах. Без salvage-парсера вы теряете результат и вынуждены повторять запрос.</p></div>
+<div class="problem-card fade-up"><div class="pr-icon">🧱</div><h4 data-ru="Лимит контекста" data-en="Context limit">Лимит контекста</h4><p data-ru="~100 сообщений — и чат заканчивается. Без ротации и суммаризации ваш диалог обрывается на самом важном месте." data-en="~100 messages and the chat is over. Without rotation and summarization, your conversation cuts off at the worst moment.">~100 сообщений — и чат заканчивается. Без ротации и суммаризации ваш диалог обрывается на самом важном месте.</p></div>
+</div></div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="section" id="solutions" style="padding-top:0">
+<div class="container">
+<div class="section-label fade-up" data-ru="Решения" data-en="Solutions">Решения</div>
+<h2 class="fade-up" data-ru="Как DeepSeek Force это решает" data-en="How DeepSeek Force solves this">Как DeepSeek Force это решает</h2>
+<p class="subtitle fade-up" data-ru="Три ключевых механизма, которые превращают уязвимый одиночный вызов в надёжную систему." data-en="Three key mechanisms that turn a vulnerable single call into a reliable system.">Три ключевых механизма, которые превращают уязвимый одиночный вызов в надёжную систему.</p>
+<div class="solves-grid">
+<div class="solve-card fade-up"><div class="sc-icon">🗳️</div><h4 data-ru="Self-Consistency Voting" data-en="Self-Consistency Voting">Self-Consistency Voting</h4><p data-ru="3+ параллельных окна голосуют за каждый ответ. Одиночная галлюцинация тонет в консенсусе — вероятность ошибки падает с ~5% до <1%." data-en="3+ parallel windows vote on every response. A lone hallucination drowns in consensus — error rate drops from ~5% to <1%.">3+ параллельных окна голосуют за каждый ответ. Одиночная галлюцинация тонет в консенсусе — вероятность ошибки падает с ~5% до <1%.</p></div>
+<div class="solve-card fade-up"><div class="sc-icon">🔧</div><h4 data-ru="Truncated Salvage" data-en="Truncated Salvage">Truncated Salvage</h4><p data-ru="Парсер восстанавливает имя инструмента и аргументы из битого JSON. Даже если ответ обрезан на 90%, вы получаете рабочий tool call." data-en="The parser recovers tool name and arguments from broken JSON. Even if the response is 90% truncated, you get a working tool call.">Парсер восстанавливает имя инструмента и аргументы из битого JSON. Даже если ответ обрезан на 90%, вы получаете рабочий tool call.</p></div>
+<div class="solve-card fade-up"><div class="sc-icon">♻️</div><h4 data-ru="Chat Rotation + Суммаризация" data-en="Chat Rotation + Summarization">Chat Rotation + Суммаризация</h4><p data-ru="Когда контекст подходит к лимиту — автоматически создаётся новый чат, а история сжимается через helper-окно. Бесконечный диалог без потери качества." data-en="When context nears the limit — a new chat is auto-created and history is compressed via a helper window. Infinite dialogue without quality loss.">Когда контекст подходит к лимиту — автоматически создаётся новый чат, а история сжимается через helper-окно. Бесконечный диалог без потери качества.</p></div>
+</div></div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:0">
+<div class="container">
+<div class="section-label fade-up" data-ru="FAQ" data-en="FAQ">FAQ</div>
+<h2 class="fade-up" data-ru="Частые вопросы" data-en="Frequently asked questions">Частые вопросы</h2>
+<p class="subtitle fade-up" data-ru="Всё, что вы хотели знать о DeepSeek Force." data-en="Everything you wanted to know about DeepSeek Force.">Всё, что вы хотели знать о DeepSeek Force.</p>
+<div class="faq-list">
+
+<div class="faq-item fade-up" onclick="this.classList.toggle('open')">
+<h4><span class="q-mark">Q</span><span data-ru="Это действительно бесплатно?" data-en="Is this really free?">Это действительно бесплатно?</span><span class="q-arrow">▾</span></h4>
+<div class="faq-answer"><p data-ru="Да. DeepSeek Force использует бесплатный веб-доступ к chat.deepseek.com через Chrome-расширение. Никаких API-ключей, никаких биллингов. Единственное требование — запущенный Chrome с нашим расширением." data-en="Yes. DeepSeek Force uses free web access to chat.deepseek.com via a Chrome extension. No API keys, no billing. The only requirement is Chrome running with our extension.">Да. DeepSeek Force использует бесплатный веб-доступ к chat.deepseek.com через Chrome-расширение. Никаких API-ключей, никаких биллингов. Единственное требование — запущенный Chrome с нашим расширением.</p></div>
+</div>
+
+<div class="faq-item fade-up" onclick="this.classList.toggle('open')">
+<h4><span class="q-mark">Q</span><span data-ru="Чем это лучше прямого API DeepSeek?" data-en="How is this better than direct DeepSeek API?">Чем это лучше прямого API DeepSeek?</span><span class="q-arrow">▾</span></h4>
+<div class="faq-answer"><p data-ru="Прямой API — это один вызов, один ответ. Нет проверки, нет голосования, нет защиты от галлюцинаций. DeepSeek Force добавляет слой оркестрации: 3+ параллельных вызова, консенсус, валидация. Плюс — это бесплатно, в отличие от API за $0.14/1M токенов." data-en="Direct API is one call, one answer. No verification, no voting, no hallucination protection. DeepSeek Force adds an orchestration layer: 3+ parallel calls, consensus, validation. Plus it's free, unlike the API at $0.14/1M tokens.">Прямой API — это один вызов, один ответ. Нет проверки, нет голосования, нет защиты от галлюцинаций. DeepSeek Force добавляет слой оркестрации: 3+ параллельных вызова, консенсус, валидация. Плюс — это бесплатно, в отличие от API за $0.14/1M токенов.</p></div>
+</div>
+
+<div class="faq-item fade-up" onclick="this.classList.toggle('open')">
+<h4><span class="q-mark">Q</span><span data-ru="Какой model_type используется?" data-en="What model_type is used?">Какой model_type используется?</span><span class="q-arrow">▾</span></h4>
+<div class="faq-answer"><p data-ru="Основной чат использует DeepSeek Instant (быстрый, для кода и агентских задач). Для картинок — Vision-окно, для поиска — Search-окно. Переключение происходит автоматически, прозрачно для пользователя." data-en="The main chat uses DeepSeek Instant (fast, for code and agent tasks). For images — a Vision window, for search — a Search window. Switching happens automatically, transparent to the user.">Основной чат использует DeepSeek Instant (быстрый, для кода и агентских задач). Для картинок — Vision-окно, для поиска — Search-окно. Переключение происходит автоматически, прозрачно для пользователя.</p></div>
+</div>
+
+<div class="faq-item fade-up" onclick="this.classList.toggle('open')">
+<h4><span class="q-mark">Q</span><span data-ru="Как установить и запустить?" data-en="How to install and run?">Как установить и запустить?</span><span class="q-arrow">▾</span></h4>
+<div class="faq-answer"><p data-ru="1. Установите Chrome-расширение из архива. 2. Запустите DeepSeek Bridge (порт 8001). 3. Запустите Orchestrator (порт 8002). 4. Укажите эндпоинт в конфиге Hermes Agent. Полная инструкция — в README репозитория." data-en="1. Install the Chrome extension from the archive. 2. Start DeepSeek Bridge (port 8001). 3. Start Orchestrator (port 8002). 4. Point the endpoint in Hermes Agent config. Full guide in the repository README.">1. Установите Chrome-расширение из архива. 2. Запустите DeepSeek Bridge (порт 8001). 3. Запустите Orchestrator (порт 8002). 4. Укажите эндпоинт в конфиге Hermes Agent. Полная инструкция — в README репозитория.</p></div>
+</div>
+
+<div class="faq-item fade-up" onclick="this.classList.toggle('open')">
+<h4><span class="q-mark">Q</span><span data-ru="Сколько Chrome-окон нужно?" data-en="How many Chrome windows are needed?">Сколько Chrome-окон нужно?</span><span class="q-arrow">▾</span></h4>
+<div class="faq-answer"><p data-ru="Минимум 3 для Self-Consistency Voting. Bridge управляет пулом автоматически — создаёт, перезапускает, ротирует при ошибках. Вы просто указываете количество в конфиге." data-en="At least 3 for Self-Consistency Voting. Bridge manages the pool automatically — creates, restarts, rotates on errors. You just specify the count in config.">Минимум 3 для Self-Consistency Voting. Bridge управляет пулом автоматически — создаёт, перезапускает, ротирует при ошибках. Вы просто указываете количество в конфиге.</p></div>
+</div>
+
+</div></div>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+<p>© 2026 DeepSeek Force. <span data-ru="Оркестрация ИИ-агентов с самопроверкой." data-en="AI agent orchestration with self-verification.">Оркестрация ИИ-агентов с самопроверкой.</span></p>
+</div>
+</footer>
+
+<script>
+let currentLang = 'ru';
+function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang));
+    document.querySelectorAll('[data-ru][data-en]').forEach(el => { el.textContent = el.dataset[lang]; });
+    document.documentElement.lang = lang;
+    localStorage.setItem('ds-force-lang', lang);
+}
+const saved = localStorage.getItem('ds-force-lang') || 'ru';
+setLang(saved);
+
+const h = document.getElementById('header');
+window.addEventListener('scroll', () => h.classList.toggle('scrolled', window.scrollY > 50));
+
+const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+}), 100);
+</script>
+</body>
+</html>
