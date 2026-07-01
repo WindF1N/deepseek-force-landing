@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "DeepSeek Provider Bridge",
+    "version": "1.0",
+    "description": "Образовательный мост для DeepSeek API",
+    "permissions": ["cookies", "storage", "scripting", "activeTab"],
+    "host_permissions": ["https://chat.deepseek.com/*"],
+    "content_scripts": [
+      {
+        "matches": ["https://chat.deepseek.com/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+      }
+    ]
+  }

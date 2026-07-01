@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: deepseek
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: deepseek_bot
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://deepseek:secret@db/deepseek_bot
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - UPLOAD_DIR=/app/uploads
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    volumes:
+      - uploads:/app/uploads
+
+volumes:
+  pgdata:
+  uploads:

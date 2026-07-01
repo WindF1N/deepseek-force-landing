@@ -1,0 +1,82 @@
+event: ready
+data: {"request_message_id":3,"response_message_id":4,"model_type":"default"}
+
+event: update_session
+data: {"updated_at":1782684827.0696468}
+
+data: {"v":{"response":{"message_id":4,"parent_id":3,"model":"","role":"ASSISTANT","thinking_enabled":false,"ban_edit":false,"ban_regenerate":false,"status":"WIP","incomplete_message":null,"accumulated_token_usage":103,"feedback":null,"inserted_at":1782684827.0553389,"search_enabled":true,"fragments":[{"id":2,"type":"SEARCH","status":"WIP","content":null,"queries":[{"query":"погода Москва сегодня"},{"query":"weather Moscow today"},{"query":"site:gismeteo.ru Москва погода сегодня"},{"query":"site:yandex.ru погода Москва сегодня"}],"results":[]}],"conversation_mode":"DEFAULT","has_pending_fragment":false,"auto_continue":false,"search_triggered":true}}}
+
+data: {"p":"response/fragments/-1/results","v":[{"url":"https://www.kp.ru/?tempage=vis_index,vis_index","title":"Новости","snippet":"Погода в Москве Сегодня Завтра +15° Ощущается как +15° Утром +18° Днем +23° Вечером +20° Погода в Москве Сегодня Завтра","cite_index":1,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/kp.ru","site_name":"Комсомольская правда","query_indexes":[0]},{"url":"https://www.accuweather.com/ru/ru/moscow/294021/june-weather/294021","title":"Москва, Москва, Россия Погода на месяц | AccuWeather","snippet":"Погода Москва, Москва Сегодня WinterCast Отслеживание местных ураганов {stormName} Почасовой 10-дневная Радар MinuteCast® Ежемесячно","cite_index":2,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/accuweather.com","site_name":"AccuWeather","query_indexes":[0]},{"url":"https://yandex.ru/pogoda/ru-RU/moscow/details/today?lang=ru&lang=ru&via=ms","title":"Погода в Москве сегодня — Яндекс Погода","snippet":"утро: +11°, небольшой дождь, Ощущается как 4. день: +12°, небольшой дождь, Ощущается как 3. вечер: +7°, облачно с прояснениями, Ощущается как -1.","cite_index":3,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/yandex.ru","site_name":"Яндекс","query_indexes":[0,3]},{"url":"http://pc.weathercn.com/weather/294021/?partner=20000010???????????+10_hfaw&p_source=&p_type=jump&areatype=","title":"莫斯科当前天气","snippet":"72小时预报1/8页 21时 阵雨 22时 大部分多云 23时 大部分多云 ... 01时 大部分多云 02时 大部分多云","cite_index":4,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/weathercn.com","site_name":"华风爱科气象科技","query_indexes":[0]},{"url":"https://www.accuweather.com/zh/ru/moscow/294021/april-weather/294021","title":"莫斯科, 莫斯科, 俄罗斯每月天气 | AccuWeather","snippet":"莫斯科, 莫斯科 天气 今天 WinterCast 当地{stormName}追踪 每小时 每天 雷达 MinuteCast® 月度 空气质量 健康与活动 全球范围 台风","cite_index":5,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/accuweather.com","site_name":"AccuWeather","query_indexes":[1]},{"url":"https://www.theweathernetwork.com/en/city/ru/moskva/moscow/current?switchto=c","title":"Moscow, MOW, RU Current Weather - The Weather Network","snippet":"What is the “feels like” temperature in Moscow? 21° What is the high and low temperature today in Moscow? 31° 20° What is the probability of rain or snow today in Moscow?","cite_index":6,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/theweathernetwork.com","site_name":"The Weather Network","query_indexes":[1]},{"url":"http://pc.weathercn.com/weather/294021/?partner=20000010%e2%94%9c%c3%a2%e2%94%ac%c3%ba%e2%94%9c%c3%b3%e2%94%ac%c4%8c%e2%94%9c%c3%a910_hfaw&p_source=&p_type=jump&areatype=","title":"莫斯科当前天气","snippet":"72小时预报1/8页 23时 部分多云 00时 部分多云 01时 间歇性多云 ... 西北风 3级 湿度 78% 阵风 24.1km/h 露点 12.8℃","cite_index":7,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/weathercn.com","site_name":"华风爱科气象科技","query_indexes":[1]},{"url":"https://www.accuweather.com/ar/ru/moscow/294021/may-weather/294021?year=2026","title":"حالة الطقس الشهري في موسكو, موسكو, روسيا من | AccuWeather","snippet":"طقس موسكو, موسكو اليوم WinterCast متتبع عاصفة {stormName} المحلية كل ساعة يوميًا الرادار MinuteCast® شهريًا جودة الهواء الصحة والأنشطة ... المدرج التكراري المتوسط","cite_index":8,"published_at":null,"site_icon":"https://cdn.deepseek.com/site-icons/accuweather.com","site_name":"AccuWeather","query_indexes":[1]}]}
+
+data: {"p":"response/fragments/-1/status","v":"FINISHED"}
+
+data: {"p":"response/conversation_mode","v":"SEARCH"}
+
+data: {"p":"response/has_pending_fragment","v":true}
+
+data: {"p":"response","o":"BATCH","v":[{"p":"fragments","o":"APPEND","v":[{"id":3,"type":"RESPONSE","content":"{\"","references":[],"stage_id":2}]},{"p":"has_pending_fragment","o":"SET","v":false}]}
+
+data: {"p":"response/fragments/-1/content","o":"APPEND","v":"tool"}
+
+data: {"v":"_c"}
+
+data: {"v":"alls"}
+
+data: {"v":"\":"}
+
+data: {"v":" ["}
+
+data: {"v":"{\""}
+
+data: {"v":"name"}
+
+data: {"v":"\":"}
+
+data: {"v":" \""}
+
+data: {"v":"search"}
+
+data: {"v":"\","}
+
+data: {"v":" \""}
+
+data: {"v":"arguments"}
+
+data: {"v":"\":"}
+
+data: {"v":" {\""}
+
+data: {"v":"query"}
+
+data: {"v":"\":"}
+
+data: {"v":" \""}
+
+data: {"v":"п"}
+
+data: {"v":"ог"}
+
+data: {"v":"ода"}
+
+data: {"v":" Моск"}
+
+data: {"v":"ва"}
+
+data: {"v":" сегодня"}
+
+data: {"v":"\""}
+
+data: {"v":"}}"}
+
+data: {"v":"]}"}
+
+data: {"p":"response","o":"BATCH","v":[{"p":"accumulated_token_usage","v":169},{"p":"quasi_status","v":"FINISHED"}]}
+
+data: {"p":"response/status","o":"SET","v":"FINISHED"}
+
+event: update_session
+data: {"updated_at":1782684828.980461}
+
+event: close
+data: {"click_behavior":"none","auto_resume":false}
+

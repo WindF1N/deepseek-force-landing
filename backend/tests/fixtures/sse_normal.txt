@@ -1,0 +1,36 @@
+event: ready
+data: {"request_message_id":3,"response_message_id":4,"model_type":"default"}
+
+event: update_session
+data: {"updated_at":1782684810.4539368}
+
+data: {"v":{"response":{"message_id":4,"parent_id":3,"model":"","role":"ASSISTANT","thinking_enabled":false,"ban_edit":false,"ban_regenerate":false,"status":"WIP","incomplete_message":null,"accumulated_token_usage":90,"feedback":null,"inserted_at":1782684810.4466019,"search_enabled":false,"fragments":[{"id":2,"type":"RESPONSE","content":"12","references":[],"stage_id":1}],"conversation_mode":"DEFAULT","has_pending_fragment":false,"auto_continue":false,"search_triggered":false}}}
+
+data: {"p":"response/fragments/-1/content","o":"APPEND","v":" п"}
+
+data: {"v":"лю"}
+
+data: {"v":"с"}
+
+data: {"v":" "}
+
+data: {"v":"30"}
+
+data: {"v":" равно"}
+
+data: {"v":" "}
+
+data: {"v":"42"}
+
+data: {"v":"."}
+
+data: {"p":"response","o":"BATCH","v":[{"p":"accumulated_token_usage","v":137},{"p":"quasi_status","v":"FINISHED"}]}
+
+data: {"p":"response/status","o":"SET","v":"FINISHED"}
+
+event: update_session
+data: {"updated_at":1782684810.599768}
+
+event: close
+data: {"click_behavior":"none","auto_resume":false}
+

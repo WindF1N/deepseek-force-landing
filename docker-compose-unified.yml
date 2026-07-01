@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  unified:
+    build:
+      context: .
+      dockerfile: Dockerfile.unified
+    ports:
+      - "8003:8003"
+    environment:
+      - PYTHONPATH=/app:/app/backend:/app/orchestrator
+    volumes:
+      - ./backend:/app/backend
+      - ./orchestrator:/app/orchestrator
+    restart: unless-stopped
+    
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: deepseek
+      POSTGRES_PASSWORD: deepseek
+      POSTGRES_DB: deepseek
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:

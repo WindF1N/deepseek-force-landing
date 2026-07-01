@@ -1,0 +1,742 @@
+event: ready
+data: {"request_message_id":3,"response_message_id":4,"model_type":"default"}
+
+event: update_session
+data: {"updated_at":1782684904.546761}
+
+data: {"v":{"response":{"message_id":4,"parent_id":3,"model":"","role":"ASSISTANT","thinking_enabled":true,"ban_edit":false,"ban_regenerate":false,"status":"WIP","incomplete_message":null,"accumulated_token_usage":90,"feedback":null,"inserted_at":1782684904.5366368,"search_enabled":false,"fragments":[{"id":2,"type":"THINK","content":"1","elapsed_secs":null,"references":[],"stage_id":1}],"conversation_mode":"DEFAULT","has_pending_fragment":false,"auto_continue":false,"search_triggered":false}}}
+
+data: {"p":"response/fragments/-1/content","o":"APPEND","v":"."}
+
+data: {"v":" "}
+
+data: {"v":" The"}
+
+data: {"v":" user"}
+
+data: {"v":" asks"}
+
+data: {"v":" for"}
+
+data: {"v":" a"}
+
+data: {"v":" brief"}
+
+data: {"v":" explanation"}
+
+data: {"v":" of"}
+
+data: {"v":" why"}
+
+data: {"v":" the"}
+
+data: {"v":" sky"}
+
+data: {"v":" is"}
+
+data: {"v":" blue"}
+
+data: {"v":","}
+
+data: {"v":" and"}
+
+data: {"v":" at"}
+
+data: {"v":" the"}
+
+data: {"v":" end"}
+
+data: {"v":","}
+
+data: {"v":" give"}
+
+data: {"v":" a"}
+
+data: {"v":" one"}
+
+data: {"v":"-word"}
+
+data: {"v":" conclusion"}
+
+data: {"v":".\n"}
+
+data: {"v":"2"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" The"}
+
+data: {"v":" system"}
+
+data: {"v":" prompt"}
+
+data: {"v":" is"}
+
+data: {"v":" a"}
+
+data: {"v":" strong"}
+
+data: {"v":" instruction"}
+
+data: {"v":":"}
+
+data: {"v":" \""}
+
+data: {"v":"Remember"}
+
+data: {"v":" YOUR"}
+
+data: {"v":" MAIN"}
+
+data: {"v":" M"}
+
+data: {"v":"ISSION"}
+
+data: {"v":":"}
+
+data: {"v":" if"}
+
+data: {"v":" you"}
+
+data: {"v":" need"}
+
+data: {"v":" a"}
+
+data: {"v":" tool"}
+
+data: {"v":","}
+
+data: {"v":" respond"}
+
+data: {"v":" ONLY"}
+
+data: {"v":" with"}
+
+data: {"v":" the"}
+
+data: {"v":" JSON"}
+
+data: {"v":" object"}
+
+data: {"v":"."}
+
+data: {"v":" No"}
+
+data: {"v":" other"}
+
+data: {"v":" text"}
+
+data: {"v":"."}
+
+data: {"v":" LIKE"}
+
+data: {"v":" THIS"}
+
+data: {"v":":"}
+
+data: {"v":" {\""}
+
+data: {"v":"tool"}
+
+data: {"v":"_c"}
+
+data: {"v":"alls"}
+
+data: {"v":"\":"}
+
+data: {"v":" ["}
+
+data: {"v":"{\""}
+
+data: {"v":"name"}
+
+data: {"v":"\":"}
+
+data: {"v":" \"<"}
+
+data: {"v":"tool"}
+
+data: {"v":"_name"}
+
+data: {"v":">"}
+
+data: {"v":"\","}
+
+data: {"v":" \""}
+
+data: {"v":"arguments"}
+
+data: {"v":"\":"}
+
+data: {"v":" {"}
+
+data: {"v":"<"}
+
+data: {"v":"parameters"}
+
+data: {"v":">"}
+
+data: {"v":"}}"}
+
+data: {"v":"]}"}
+
+data: {"v":"\"\n"}
+
+data: {"v":"3"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" The"}
+
+data: {"v":" user"}
+
+data: {"v":"'s"}
+
+data: {"v":" request"}
+
+data: {"v":" does"}
+
+data: {"v":" NOT"}
+
+data: {"v":" require"}
+
+data: {"v":" a"}
+
+data: {"v":" tool"}
+
+data: {"v":"."}
+
+data: {"v":" It"}
+
+data: {"v":"'s"}
+
+data: {"v":" a"}
+
+data: {"v":" general"}
+
+data: {"v":" knowledge"}
+
+data: {"v":" question"}
+
+data: {"v":".\n"}
+
+data: {"v":"4"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" The"}
+
+data: {"v":" system"}
+
+data: {"v":" prompt"}
+
+data: {"v":" says"}
+
+data: {"v":" \""}
+
+data: {"v":"if"}
+
+data: {"v":" you"}
+
+data: {"v":" need"}
+
+data: {"v":" a"}
+
+data: {"v":" tool"}
+
+data: {"v":","}
+
+data: {"v":" respond"}
+
+data: {"v":" ONLY"}
+
+data: {"v":" with"}
+
+data: {"v":" the"}
+
+data: {"v":" JSON"}
+
+data: {"v":" object"}
+
+data: {"v":"\"."}
+
+data: {"v":" It"}
+
+data: {"v":" does"}
+
+data: {"v":" NOT"}
+
+data: {"v":" say"}
+
+data: {"v":" \""}
+
+data: {"v":"always"}
+
+data: {"v":" respond"}
+
+data: {"v":" with"}
+
+data: {"v":" the"}
+
+data: {"v":" JSON"}
+
+data: {"v":" object"}
+
+data: {"v":"\""}
+
+data: {"v":" or"}
+
+data: {"v":" \""}
+
+data: {"v":"respond"}
+
+data: {"v":" with"}
+
+data: {"v":" JSON"}
+
+data: {"v":" for"}
+
+data: {"v":" everything"}
+
+data: {"v":"\"."}
+
+data: {"v":" It"}
+
+data: {"v":" specifically"}
+
+data: {"v":" conditions"}
+
+data: {"v":" the"}
+
+data: {"v":" JSON"}
+
+data: {"v":" response"}
+
+data: {"v":" on"}
+
+data: {"v":" *"}
+
+data: {"v":"ne"}
+
+data: {"v":"eding"}
+
+data: {"v":" a"}
+
+data: {"v":" tool"}
+
+data: {"v":"*"}
+
+data: {"v":".\n"}
+
+data: {"v":"5"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" Since"}
+
+data: {"v":" I"}
+
+data: {"v":" do"}
+
+data: {"v":" not"}
+
+data: {"v":" need"}
+
+data: {"v":" a"}
+
+data: {"v":" tool"}
+
+data: {"v":","}
+
+data: {"v":" I"}
+
+data: {"v":" should"}
+
+data: {"v":" respond"}
+
+data: {"v":" with"}
+
+data: {"v":" the"}
+
+data: {"v":" actual"}
+
+data: {"v":" explanation"}
+
+data: {"v":" in"}
+
+data: {"v":" plain"}
+
+data: {"v":" text"}
+
+data: {"v":","}
+
+data: {"v":" not"}
+
+data: {"v":" the"}
+
+data: {"v":" JSON"}
+
+data: {"v":" object"}
+
+data: {"v":".\n"}
+
+data: {"v":"6"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" Let"}
+
+data: {"v":"'s"}
+
+data: {"v":" craft"}
+
+data: {"v":" a"}
+
+data: {"v":" brief"}
+
+data: {"v":" explanation"}
+
+data: {"v":":"}
+
+data: {"v":" Sun"}
+
+data: {"v":"light"}
+
+data: {"v":" sc"}
+
+data: {"v":"atters"}
+
+data: {"v":" in"}
+
+data: {"v":" the"}
+
+data: {"v":" atmosphere"}
+
+data: {"v":"."}
+
+data: {"v":" Blue"}
+
+data: {"v":" light"}
+
+data: {"v":" has"}
+
+data: {"v":" a"}
+
+data: {"v":" shorter"}
+
+data: {"v":" wavelength"}
+
+data: {"v":" and"}
+
+data: {"v":" sc"}
+
+data: {"v":"atters"}
+
+data: {"v":" more"}
+
+data: {"v":" than"}
+
+data: {"v":" other"}
+
+data: {"v":" colors"}
+
+data: {"v":" ("}
+
+data: {"v":"Ray"}
+
+data: {"v":"leigh"}
+
+data: {"v":" scattering"}
+
+data: {"v":"),"}
+
+data: {"v":" so"}
+
+data: {"v":" we"}
+
+data: {"v":" see"}
+
+data: {"v":" blue"}
+
+data: {"v":" sky"}
+
+data: {"v":" from"}
+
+data: {"v":" all"}
+
+data: {"v":" directions"}
+
+data: {"v":".\n"}
+
+data: {"v":"7"}
+
+data: {"v":"."}
+
+data: {"v":" "}
+
+data: {"v":" One"}
+
+data: {"v":"-word"}
+
+data: {"v":" conclusion"}
+
+data: {"v":":"}
+
+data: {"v":" Sc"}
+
+data: {"v":"attering"}
+
+data: {"v":"."}
+
+data: {"v":" ("}
+
+data: {"v":"Or"}
+
+data: {"v":" Rayleigh"}
+
+data: {"v":","}
+
+data: {"v":" but"}
+
+data: {"v":" \""}
+
+data: {"v":"Sc"}
+
+data: {"v":"attering"}
+
+data: {"v":"\""}
+
+data: {"v":" fits"}
+
+data: {"v":" better"}
+
+data: {"v":")."}
+
+data: {"v":" Let"}
+
+data: {"v":"'s"}
+
+data: {"v":" use"}
+
+data: {"v":" \""}
+
+data: {"v":"Рас"}
+
+data: {"v":"се"}
+
+data: {"v":"я"}
+
+data: {"v":"ние"}
+
+data: {"v":"\""}
+
+data: {"v":" ("}
+
+data: {"v":"Russian"}
+
+data: {"v":")"}
+
+data: {"v":" since"}
+
+data: {"v":" the"}
+
+data: {"v":" prompt"}
+
+data: {"v":" is"}
+
+data: {"v":" in"}
+
+data: {"v":" Russian"}
+
+data: {"v":"."}
+
+data: {"v":" Wait"}
+
+data: {"v":","}
+
+data: {"v":" let"}
+
+data: {"v":"'s"}
+
+data: {"v":" just"}
+
+data: {"v":" use"}
+
+data: {"v":" a"}
+
+data: {"v":" general"}
+
+data: {"v":" word"}
+
+data: {"v":"."}
+
+data: {"v":" \""}
+
+data: {"v":"Рас"}
+
+data: {"v":"се"}
+
+data: {"v":"я"}
+
+data: {"v":"ние"}
+
+data: {"v":"\"."}
+
+data: {"p":"response/fragments/-1/elapsed_secs","o":"SET","v":2.793370027}
+
+data: {"p":"response/fragments","o":"APPEND","v":[{"id":3,"type":"RESPONSE","content":"С","references":[],"stage_id":1}]}
+
+data: {"p":"response/fragments/-1/content","v":"ол"}
+
+data: {"v":"не"}
+
+data: {"v":"чный"}
+
+data: {"v":" свет"}
+
+data: {"v":" состоит"}
+
+data: {"v":" из"}
+
+data: {"v":" разных"}
+
+data: {"v":" цвет"}
+
+data: {"v":"ов"}
+
+data: {"v":"."}
+
+data: {"v":" Про"}
+
+data: {"v":"ходя"}
+
+data: {"v":" через"}
+
+data: {"v":" атмос"}
+
+data: {"v":"фер"}
+
+data: {"v":"у"}
+
+data: {"v":","}
+
+data: {"v":" он"}
+
+data: {"v":" ста"}
+
+data: {"v":"лки"}
+
+data: {"v":"вается"}
+
+data: {"v":" с"}
+
+data: {"v":" молеку"}
+
+data: {"v":"лами"}
+
+data: {"v":" воздуха"}
+
+data: {"v":"."}
+
+data: {"v":" Си"}
+
+data: {"v":"ний"}
+
+data: {"v":" свет"}
+
+data: {"v":" имеет"}
+
+data: {"v":" сам"}
+
+data: {"v":"ую"}
+
+data: {"v":" корот"}
+
+data: {"v":"кую"}
+
+data: {"v":" дли"}
+
+data: {"v":"ну"}
+
+data: {"v":" вол"}
+
+data: {"v":"ны"}
+
+data: {"v":" и"}
+
+data: {"v":" рас"}
+
+data: {"v":"се"}
+
+data: {"v":"и"}
+
+data: {"v":"вается"}
+
+data: {"v":" си"}
+
+data: {"v":"ль"}
+
+data: {"v":"нее"}
+
+data: {"v":" оста"}
+
+data: {"v":"льных"}
+
+data: {"v":","}
+
+data: {"v":" поэтому"}
+
+data: {"v":" мы"}
+
+data: {"v":" ви"}
+
+data: {"v":"дим"}
+
+data: {"v":" его"}
+
+data: {"v":" со"}
+
+data: {"v":" всего"}
+
+data: {"v":" не"}
+
+data: {"v":"ба"}
+
+data: {"v":".\n\n"}
+
+data: {"v":"Вы"}
+
+data: {"v":"вод"}
+
+data: {"v":":"}
+
+data: {"v":" Рас"}
+
+data: {"v":"се"}
+
+data: {"v":"я"}
+
+data: {"v":"ние"}
+
+data: {"v":"."}
+
+data: {"p":"response","o":"BATCH","v":[{"p":"accumulated_token_usage","v":204},{"p":"quasi_status","v":"FINISHED"}]}
+
+data: {"p":"response/status","o":"SET","v":"FINISHED"}
+
+event: update_session
+data: {"updated_at":1782684907.5291939}
+
+event: close
+data: {"click_behavior":"none","auto_resume":false}
+
